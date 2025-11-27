@@ -1,6 +1,6 @@
 package utils;
 
-import dto.Contact;
+import models.Contact;
 import net.datafaker.Faker;
 
 public class ContactFactory {
@@ -9,13 +9,7 @@ public class ContactFactory {
     public static void main(String[] args) {
         System.out.println(positiveContact());
     }
-//    private String id;
-//    private String name;
-//    private String lastName;
-//    private String email;
-//    private String phone;
-//    private String address;
-//    private String description;
+
     public static Contact positiveContact(){
         return Contact.builder()
                 .name(faker.name().firstName())
