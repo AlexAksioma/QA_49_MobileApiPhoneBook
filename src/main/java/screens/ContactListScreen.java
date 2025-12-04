@@ -12,4 +12,15 @@ public class ContactListScreen extends BaseScreen{
     @AndroidFindBy(id = "com.sheygam.contactapp:id/emptyTxt")
     WebElement textNoContacts;
 
+    @AndroidFindBy(accessibility = "add")
+    WebElement btnPlus;
+
+    public boolean validateContactListScreenOpenAfterRegistration(String text, int time){
+        return textInElementPresent(textNoContacts, text, time);
+    }
+
+    public boolean btnPlusIsPresent(int time){
+        return isElementPresent(btnPlus, time);
+    }
+
 }
