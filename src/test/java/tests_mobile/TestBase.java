@@ -14,7 +14,7 @@ public class TestBase {
         driver = AppiumConfig.createAppiumDriver("pixel.properties");
     }
 
-    @Test
+    @Test(enabled = false)
     public void start(){
 
     }
