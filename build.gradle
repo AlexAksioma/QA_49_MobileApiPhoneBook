@@ -48,14 +48,14 @@ allure {
 }
 test {
     useTestNG() {
-        useTestNG() {
-            useDefaultListeners = true
-        }
-        testLogging {
-            events "passed", "skipped", "failed"
-            exceptionFormat "full"
-
-        }
+        useTestNG()// {
+//            useDefaultListeners = true
+//        }
+//        testLogging {
+//            events "passed", "skipped", "failed"
+//            exceptionFormat "full"
+//
+//        }
         jvmArgs(
                 '--add-opens=java.base/java.lang=ALL-UNNAMED',
                 '--add-opens=java.base/java.io=ALL-UNNAMED',
@@ -64,22 +64,22 @@ test {
     }
 }
 
-task math(type: Test) {
-    useTestNG() {
-        useDefaultListeners = true
-        suites 'src/test/resources/testng.xml'
-    }
-    testLogging {
-        events "passed", "skipped", "failed"
-        exceptionFormat "full"
-    }
-
-    jvmArgs(
-            '--add-opens=java.base/java.lang=ALL-UNNAMED',
-            '--add-opens=java.base/java.io=ALL-UNNAMED',
-            '--add-opens=java.base/sun.nio.ch=ALL-UNNAMED'
-    )
-}
+//task math(type: Test) {
+//    useTestNG() {
+//        useDefaultListeners = true
+//        suites 'src/test/resources/testng.xml'
+//    }
+//    testLogging {
+//        events "passed", "skipped", "failed"
+//        exceptionFormat "full"
+//    }
+//
+//    jvmArgs(
+//            '--add-opens=java.base/java.lang=ALL-UNNAMED',
+//            '--add-opens=java.base/java.io=ALL-UNNAMED',
+//            '--add-opens=java.base/sun.nio.ch=ALL-UNNAMED'
+//    )
+//}
 
 //tasks.register('allureGenerate', Exec) {
 //    dependsOn test

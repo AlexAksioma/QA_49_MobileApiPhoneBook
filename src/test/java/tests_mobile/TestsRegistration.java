@@ -16,7 +16,7 @@ public class TestsRegistration extends TestBase{
 
     @BeforeMethod
     public void goToAuthScreen(){
-        //new SplashScreen(driver);
+        new SplashScreen(driver);
         authenticationScreen = new AuthenticationScreen(driver);
     }
 
