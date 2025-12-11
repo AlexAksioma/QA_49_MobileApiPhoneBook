@@ -5,45 +5,43 @@ import models.User;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import screens.AddNewContactScreen;
 import screens.AuthenticationScreen;
 import screens.ContactListScreen;
+import screens.EditContactScreen;
 import screens.ErrorScreen;
 import utils.ContactFactory;
 
-public class TestsAddNewContact extends TestBase{
-
+public class TestsEditContact extends TestBase{
     AuthenticationScreen authenticationScreen;
     ContactListScreen contactListScreen;
-    AddNewContactScreen addNewContactScreen;
+    EditContactScreen editContactScreen;
+
 
     @BeforeMethod
-    public void login(){
+    public void login() {
         authenticationScreen = new AuthenticationScreen(driver);
         User user = new User("a@mail.ru", "Password123!");
         authenticationScreen.typeAuthForm(user);
         authenticationScreen.clickBtnLogin();
         contactListScreen = new ContactListScreen(driver);
-        contactListScreen.clickBtnAdd();
-        addNewContactScreen = new AddNewContactScreen(driver);
     }
 
     @Test
-    public void addNewContactPositiveTest(){
-        Contact contact = ContactFactory.positiveContact();
-        addNewContactScreen.typeContact(contact);
-        addNewContactScreen.clickBtnCreateContact();
-        Assert.assertTrue(contactListScreen.validatePopUpMessage("Contact was added!", 10));
+    public void editContactPositiveTest() {
+        contactListScreen.openContactMiddle();
+        editContactScreen = new EditContactScreen(driver);
+        editContactScreen.typeEditContactForm(ContactFactory.positiveContact());
+        Assert.assertTrue(contactListScreen.validatePopUpMessage("Contact was updated!", 10));
     }
 
     @Test
-    public void addNewContactNegativeTest_emptyLastName(){
+    public void editContactNegativeTest_wrongLastName() {
         Contact contact = ContactFactory.positiveContact();
         contact.setLastName("");
-        addNewContactScreen.typeContact(contact);
-        addNewContactScreen.clickBtnCreateContact();
+        contactListScreen.openContactMiddle();
+        editContactScreen = new EditContactScreen(driver);
+        editContactScreen.typeEditContactForm(contact);
         Assert.assertTrue(new ErrorScreen(driver)
                 .validateErrorText("lastName=must not be blank", 10));
     }
-
 }
