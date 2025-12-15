@@ -4,18 +4,15 @@ import io.restassured.response.Response;
 import manager.AuthenticationController;
 import manager.ContactController;
 import models.Contact;
-import models.ResponseMessageDto;
+import models.ContactsDto;
 import models.TokenDto;
 import models.User;
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import utils.ContactFactory;
 
-import static utils.PropertiesReader.*;
+import static utils.PropertiesReader.getProperty;
 
-public class TestAddNewContact extends ContactController {
-
+public class TestGetAllUserContacts extends ContactController {
     TokenDto tokenDto;
 
     @BeforeClass
@@ -30,13 +27,9 @@ public class TestAddNewContact extends ContactController {
     }
 
     @Test
-    public void addNewContactPositiveTest(){
-        System.out.println(tokenDto.toString());
-        Contact contact = ContactFactory.positiveContact();
-        Response response = requestAddNewContact(contact, ADD_NEW_CONTACT, tokenDto.getToken());
-        System.out.println(response.getStatusLine());
-        ResponseMessageDto responseMessageDto = response.body().as(ResponseMessageDto.class);
-        System.out.println(responseMessageDto.getMessage());
-        Assert.assertEquals(response.getStatusCode(), 200);
+    public void getAllUserContacts(){
+        ContactsDto contactsDto = getAllUserContacts(ADD_NEW_CONTACT, tokenDto.getToken()).as(ContactsDto.class);
+        for (Contact contact : contactsDto.getContacts())
+            System.out.println(contact);
     }
 }
