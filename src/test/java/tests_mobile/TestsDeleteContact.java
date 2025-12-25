@@ -54,6 +54,10 @@ public class TestsDeleteContact extends TestBase {
     @Test
     public void deleteFirstContactTest() {
         contactListScreen.deleteFirstContact();
-        //validate RestAssured
+        int sizeBefore = contactsBeforeDelete.getContacts().size();
+        int sizeAfter =  getAllUserContacts(ADD_NEW_CONTACT, tokenDto.getToken())
+                .as(ContactsDto.class).getContacts().size();
+        System.out.println(sizeBefore +"----"+sizeAfter);
+        Assert.assertEquals(sizeAfter, sizeBefore-1);
     }
 }

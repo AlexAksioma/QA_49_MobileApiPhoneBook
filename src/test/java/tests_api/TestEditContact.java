@@ -9,37 +9,24 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import utils.ContactFactory;
 
+import java.util.List;
+
 import static utils.PropertiesReader.getProperty;
 
 public class TestEditContact extends ContactController {
-    TokenDto tokenDto;
-    String contactId;
+    List<String> resultLogin;
 
     @BeforeClass
-    public void login() {
-        User user = new User(getProperty("base.properties", "login"),
-                getProperty("base.properties", "password"));
-        Response responseLogin = AuthenticationController.requestRegLogin(user, LOGIN);
-        if (responseLogin.getStatusCode() == 200)
-            tokenDto = responseLogin.body().as(TokenDto.class);
-        else
-            throw new IllegalArgumentException("Login status code =" + responseLogin.getStatusCode());
-        Contact contact = ContactFactory.positiveContact();
-        Response responseAdd = requestAddNewContact(contact, ADD_NEW_CONTACT, tokenDto.getToken());
-        if (responseAdd.getStatusCode() == 200) {
-            ResponseMessageDto responseMessageDto = responseAdd.body().as(ResponseMessageDto.class);
-            System.out.println(responseMessageDto.getMessage());
-            contactId = responseMessageDto.getMessage().split("ID: ")[1];
-        } else
-            throw new IllegalArgumentException("Add contact status code =" + responseAdd.getStatusCode());
+    public void login(){
+        resultLogin = loginWithValidCredentials();
     }
 
     @Test
     public void editContactPositiveTest() {
-        System.out.println(contactId);
+        System.out.println(resultLogin.get(1));
         Contact newContact = ContactFactory.positiveContact();
-        newContact.setId(contactId);
-        Response response = requestEditContact(newContact, ADD_NEW_CONTACT, tokenDto.getToken());
+        newContact.setId(resultLogin.get(1));
+        Response response = requestEditContact(newContact, ADD_NEW_CONTACT, resultLogin.get(0));
         if (response.getStatusCode() == 200) {
             boolean flag = false;
             ContactsDto contactsDto = getAllUserContacts();
@@ -55,7 +42,7 @@ public class TestEditContact extends ContactController {
     }
 
     private ContactsDto getAllUserContacts() {
-        Response response = getAllUserContacts(ADD_NEW_CONTACT, tokenDto.getToken());
+        Response response = getAllUserContacts(ADD_NEW_CONTACT, resultLogin.get(0));
         if (response.getStatusCode() == 200) {
             return response.as(ContactsDto.class);
         }
